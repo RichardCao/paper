@@ -27,16 +27,17 @@
 % For tracking purposes - this is V3.1SP - APRIL 2009
 
 \documentclass{acm_proc_article-sp}
+\usepackage{balance}
 
 \begin{document}
 
-\title{A Sample {\ttlit ACM} SIG Proceedings Paper in LaTeX}
+\title{Adaptive Monitoring using Openflow}
 \subtitle{[Extended Abstract]}
 
-\numberofauthors{4} 
+\numberofauthors{3} 
 \author{
 \alignauthor
-Author One\titlenote{Now on postdoctoral fellow at ABC University}\\
+Author One\titlenote{sample titlenote}\\
        \affaddr{Institute One}\\
        \affaddr{Address One}\\
        \email{author.one@emails.com}
@@ -45,59 +46,168 @@ Author Two\\
        \affaddr{Institute Two}\\
        \affaddr{Address Two}\\
        \email{author.two@emails.com}
-\and % go to new row
+%\and % go to new row
 \alignauthor
 Author Three\\
        \affaddr{Institute Three}\\
        \affaddr{Address Three}\\
        \email{author.three@emails.com}
-\alignauthor
-Author Four\\
-       \affaddr{Institute Four}\\
-       \affaddr{Address Four}\\
-       \email{author.four@emails.com}
+%\alignauthor
+%Author Four\\
+%       \affaddr{Institute Four}\\
+%       \affaddr{Address Four}\\
+%       \email{author.four@emails.com}
 }
+
 
 \date{20 April 2013}
 
-
 \maketitle
+
+%\balance
+
 \begin{abstract}
-Abstract text. Abstract text. Abstract text. Abstract text. Abstract text. Abstract text. Abstract text. 
+This paper present a network monitoring architecture which take advantages of Software Defined Network and traditional monitor methods. Our architecture support the a number of features: 1)monitoring all the flows with low cost, 2)adjust the work condition automatically according to the flow status, 3)accept instructions from users and other applications to control the flow, 4)combined with traditional detection methods.
+
+optional: 1)support long-term flow analysis...
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
 %A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\terms{Theory}
+\terms{Application}
 
-\keywords{ACM proceedings, \LaTeX, text tagging} % NOT required for Proceedings
+\keywords{network monitor, openflow} % NOT required for Proceedings
+
 
 \section{Introduction}
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text. 
+In modern datacenters, collecting the network flow statistics information and DPI information is important for attack detection and resource allocation. By monitoring the network flows, we could know whether there's irregular flows, which part is the most active and when to upgrade the whole system. If the bandwidth demands of servers and applications are changing dynamically, it is too difficult to give reasonable predictions and only real-time monitoring is feasible.
 
-Citation of Einstein paper~\cite{Einstein}.
+However, the procedure of monitor all the network flows usually cost too much and we have to make a compromision between efficiency and accuracy. 
 
-\section{Results and Discussions}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+(TBA) More details
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+(TBA)Our main contribution.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\section{Related Work}
+(TBA)Related Work
+
+openflow: \cite{openflow}
+
+B4: \cite{google-b4} 
+
+\section{Our Method}
+(TBA)Brief summary of related work. Discuss the advantages and disadvantages of Sample, Mirror and so on.
+
+No we consider the cost when we try to get the network flow information. If we use openflow table to monitor an point-to-point flow, the cost is one flow entry. If we mirror a flow to a server, the cost is the bandwidth. In our system, we use openflow entry to monitor large flow, and mirror small flows to the server.
+
+The rest of the sections is arranged as follows. The ystem architecture part described the hardware architecture and flow table design, and why we build our system like this.  The section about elephant flows describes the algorithm and feedback control on filtering large flows
+
+\subsection{System Architecture}
+Hardware Struction
+
+(image)
+
+             user --> controller
+
+             controller <--> switch
+
+             switch ----> servers
+
+             switch --> mirror server
+
+             switch --> snort node(third-part tools)
+
+             mirror server --> controller
+
+             snort node --> controller
+
+             (add port infromation, and link to controller is inband)
+
+
+Briefly introduce the structure of different part and their relationships.
+
+Briefly intrudoce the detailed structure of the controller.
+
+Flow table Struction:
+
+(image)
+
+            flow table 1:
+
+            ~~~~ for high level monitor (user different priority)
+
+            flow table 0:
+
+            ~~~~ for determinate flow monitor while can make routing decision by oneself (high priority)
+
+            ~~~~ fow learning switch(low priority), inlucding the lowest priority packet-in
+
+
+Explain why use the high level part to monitor and routing, but not add another table. (Due to the hardware implentation of multi-table on Pica8...--Can we write like this?--)
+
+Explain why use table one for high level monitor. (It can't make routing decisions by one self. eg. all flow come from a given IP.)
+
+
+
+
+\subsubsection{Use Openflow Entry to Filter Elephant Flows}
+
+
+\subsubsection{Use Third-party Tools for DPI Detection}
+The shortage of our SDN monitor is we can't look up into the packets on the switch. Even we can look into the information in a packet when packet-in event happens, we can't affort the cost of packet-in. A general controller could only deal with 1k-10k packet-in request, which we will test later.
+We choose snort
+
+\subsection{Flow Entry ReplaceMent Algorithm}
+
+Random vs Greedy vs Damping using long-term history
+compare target: mirror bandwidth,  monitor precision, entry change time, 
+
+Use dft to detect whether the flow is mutable or stable. Combine it with the average flow size to determine whether to add the corresponding monitor entry.
+
+Store long-term information also help to ddos detection.
+
+
+\section{Experiments}
+
+\subsection{Environment Setup}
+
+Hardware parameters introduction. Pica8-3295 and server models
+
+\subsection{Test on Switch and Controller}
+Use cbench or other tools. Test on standard learning switch between our switch.
+also test whether it lead to packet-loss when insert and delete flow entries.
+
+\subsection{Compare the Bandwidth and Latency under L2 and Openflow}
+use scripts (got help from liyiran)
+Test bandwidth between servers under L2 model and Openflow model
+
+(image)
+
+Test bandwidth between servers under Openflow model with insert/delete monitor flows on different frequency.
+
+(image)
+
+
+\subsection{Test on the Statictis Precision, Cost includes flow entry, mirror bandwidth}
+Use generated flows
+
+Use real production flows(e.g.Spark network)
+
+\subsection{Real Applications (eg. Spark cluster.))}
+
+\subsection{Compared with sFlow}
+Use generated flows, Compare the precision.
+
+\section{Conclusion}
+
+Conclusion
+
 
 \bibliographystyle{abbrv}
 \bibliography{sample}
-
-%\balancecolumns 
 
 \end{document}
