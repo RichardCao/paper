@@ -92,7 +92,7 @@ However, the procedure of monitor all the network flows usually cost too much an
 \section{Related Work}
 (TBA)Related Work\\
 openflow: \cite{openflow}\\
-B4: \cite{google-b4} \\
+B4: \cite{google-b4}\\
 
 
 \section{Our Method}
@@ -101,12 +101,12 @@ B4: \cite{google-b4} \\
 The rest of the sections is arranged as follows. The ystem architecture part described the hardware architecture and flow table design, and why we build our system like this.  The section about elephant flows describes the algorithm and feedback control on filtering large flows\\
 
 \subsection{System Architecture}
-Hardware Struction
+Hardware Structure
 
 (image)\\
              user --> controller\\
              controller <--> switch\\
-             switch ----> servers\\
+             switch ---> servers\\
              switch --> mirror server\\
              switch --> snort node(third-part tools)\\
              mirror server --> controller\\
@@ -127,7 +127,7 @@ Flow table Struction:\\
 (TBA)Explain why use the high level part to monitor and routing, but not add another table. (Due to the hardware implentation of multi-table on Pica8...--Can we write like this?--)\\
 (TBA)Explain why use table one for high level monitor. (It can't make routing decisions by one self. eg. all flow come from a given IP.)\\
 
-\subsection{Flow Bandwidth Detection}
+\subsection{Flow Bandwidth Monitoring}
 Bandwidth Detection:\\
 Use flow entris to filter elephant flow.\\
 Use feedback to adjust monitoring entries. If the mirror bandwidth extend the port bandwidth, times the factor for feedback result\\
@@ -139,40 +139,60 @@ compare target: mirror bandwidth,  monitor precision, entry change time and so o
 Use dft to detect whether the flow is mutable or stable. Combine it with the average flow size to determine whether to add the corresponding monitor entry.\\
 Store long-term information also help to ddos detection.\\
 
-\subsection{DDos detection}
+\subsection{DDos attack detection}
 Store all the flow statistics information of a period time.\\
 For each src node and dst node, use the relavent flows to determine whether it is a potential attacker or a target.
 
-\subsection{Use Third-party Tools for DPI Detection}
+\subsection{Deep Package Information Detection}
 The shortage of our SDN monitor is we can't look up into the packets on the switch. Even we can look into the information in a packet when packet-in event happens, we can't affort the cost of packet-in. A general controller could only deal with 1k-10k packet-in request, which we will test later.\\
 snort
 
+\subsection{Operation for User Command}
+Monitor Flows, Block Ports\\
+Change work status.\\
 
-\section{Experiments}
+
+\section{Evaluation}
 
 \subsection{Environment Setup}
 Hardware parameters introduction. Pica8-3295 and server models\\
 Real System connection.\\
 
-\subsection{Test on Switch and Controller}
+\subsection{Basic Environment Test}
+Test on Switch and Controller:\\
 Basic Test.\\
 Use cbench or other tools. Test on standard learning switch between our switch.\\
-Also test whether it lead to packet-loss when insert and delete flow entries.\\
 
-\subsection{Compare the Bandwidth and Latency under L2 and Openflow}
+Compare the Bandwidth and Latency under L2 and Openflow:\\
 use scripts (got help from liyiran)\\
 Test bandwidth between servers under L2 model and Openflow model.\\
 (image)\\
 Test bandwidth between servers under Openflow model with insert/delete monitor flows on different frequency.\\
 (image)\\
 
-\subsection{Test on the Statictis Precision, Cost includes flow entry, mirror bandwidth}
+Test the Bandwidth and Latency influence of inserting and deleting monitor flows.\\
+Also test whether it lead to packet-loss when insert and delete flow entries.\\
+
+\subsection{Precision}
+Bandwidth(Elephant FLow):\\
+Compared with sFlow.\\
+Use generated flows, Compare the precision.\\
+When bandwidth is not full, when mirror port is full.\\
+absolute precision, precision with sflow.
+
+DDoss:\\
+Compared with?
+absolute precision, precision with sflow.
+long-term feature
+
+\subsection{Cost, Cost includes flow entry, mirror bandwidth}
 Use generated flows\\
+As all are real result, not necessary to test active time.
+
+\subsection{DPI and User's command}
 
 \subsection{Real Applications (eg. Spark cluster.))}
 
-\subsection{Compared with sFlow}
-Use generated flows, Compare the precision.\\
 
 \section{Conclusion}
 Conclusion\\
