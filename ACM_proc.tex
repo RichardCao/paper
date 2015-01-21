@@ -67,9 +67,10 @@ Author Three\\
 \balance
 
 \begin{abstract}
-This paper present a network monitoring architecture which take advantages of Software Defined Network and traditional monitor methods. Our architecture support the a number of features: 1)monitoring all the flows with low cost, 2)adjust the work condition automatically according to the flow status, 3)accept instructions from users and other applications to control the flow, 4)combined with traditional detection methods.
+This paper present a network monitoring architecture which take advantages of Software Defined Network and traditional monitor methods. Our architecture support the a number of features: 1)monitoring both large and small flows with low cost, 2)adjust the work condition automatically according to the flow status, 3)accept instructions from users and other applications to control the flow, 4)combined with traditional detection methods.
 
 optional: 1)support long-term flow analysis...
+TODO: make features clearly
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -87,18 +88,24 @@ In modern datacenters, collecting the network flow statistics information and DP
 However, the procedure of monitor all the network flows usually cost too much and we have to make a compromision between efficiency and accuracy.\\ 
 (TBA) More details\\
 (TBA)Our main contribution.\\
+\\
+\\
+\\
 
 
 \section{Related Work}
 (TBA)Related Work\\
-openflow: \cite{openflow}\\
-B4: \cite{google-b4}\\
+Sample Citation:\\
+openflow: \cite{openflow-2511}\\
+B4: \cite{google-b4-225}\\
+csamp: \cite{csamp-97}\\
 
+The structure of the rest of this paper.
 
 \section{Our Method}
 (TBA)Brief summary of related work. Discuss the advantages and disadvantages of Sample, Mirror and so on.\\
 (TBA, motivation)Now we consider the cost when we try to get the network flow information. If we use openflow table to monitor an point-to-point flow, the cost is one flow entry. If we mirror a flow to a server, the cost is the bandwidth. In our system, we use openflow entry to monitor large flow, and mirror small flows to the server.\\
-The rest of the sections is arranged as follows. The ystem architecture part described the hardware architecture and flow table design, and why we build our system like this.  The section about elephant flows describes the algorithm and feedback control on filtering large flows\\
+The rest of the sections is arranged as follows. The system architecture part described the hardware architecture and flow table design, and why we build our system like this. The flow bandwidth monitor describes the algorithm and feedback control on filtering large flows and monitor small flows. The ddos attack detection describe how to monitor long-term ddos attack as well as short-term attack. The deep packetage information detection describe how we detect the package content by using other tools. And the operation for uses command part describe how can we follow users' instructions.\\
 
 \subsection{System Architecture}
 Hardware Structure
@@ -156,16 +163,20 @@ Change work status.\\
 
 \subsection{Environment Setup}
 Hardware parameters introduction. Pica8-3295 and server models\\
-Real System connection.\\
+Real System connection struction.\\
+
+(Test is based on the features our method support, and including performance test.)
 
 \subsection{Basic Environment Test}
 Test on Switch and Controller:\\
 Basic Test.\\
 Use cbench or other tools. Test on standard learning switch between our switch.\\
+(optional)Test the basic parameters of our system.
 
+\subsection{Compared with L2}
 Compare the Bandwidth and Latency under L2 and Openflow:\\
 use scripts (got help from liyiran)\\
-Test bandwidth between servers under L2 model and Openflow model.\\
+Test bandwidth between servers under L2 model and Openflow model. If these's little difference, change it to the test between L2 and openflow with our controller\\
 (image)\\
 Test bandwidth between servers under Openflow model with insert/delete monitor flows on different frequency.\\
 (image)\\
@@ -178,20 +189,22 @@ Bandwidth(Elephant FLow):\\
 Compared with sFlow.\\
 Use generated flows, Compare the precision.\\
 When bandwidth is not full, when mirror port is full.\\
-absolute precision, precision with sflow.
+absolute precision, precision compared with sflow.
 
 DDoss:\\
 Compared with?
-absolute precision, precision with sflow.
+absolute precision
 long-term feature
+react time
+
+\subsection{Reaction Time}
+The attack start time and detected time
+DPI
+user's command
 
 \subsection{Cost, Cost includes flow entry, mirror bandwidth}
 Use generated flows\\
-As all are real result, not necessary to test active time.
-
-\subsection{DPI and User's command}
-
-\subsection{Real Applications (eg. Spark cluster.))}
+Use real cluster flows(eg. Spark). Depends on the flow characteristc.
 
 
 \section{Conclusion}
